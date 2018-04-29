@@ -1,4 +1,4 @@
-# Project Name
+# Youtube Collection Maker
 
 A simple program to download video on youtube to mp3 and concatenate into a single mp3
 
