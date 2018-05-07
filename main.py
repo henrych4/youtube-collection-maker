@@ -1,11 +1,13 @@
 import os
+import random
+import argparse
 from pydub import AudioSegment
 
 def read_song_url():
     songUrl = open('./song_url.txt').read().strip().split('\n')
     return songUrl
 
-def convert_to_song(songUrl):
+def convert_to_song(songUrl, shuffle):
     song = []
     songName = []
     for i, line in enumerate(songUrl):
@@ -26,17 +28,30 @@ def convert_to_song(songUrl):
     for name in songName:
         sound = AudioSegment.from_mp3(name)
         song.append(sound)
-    return song
 
-def export_song_collection(song):
+    if shuffle:
+        combine = list(zip(songName, song))
+        random.shuffle(combine)
+        songName, song = zip(*combine)
+        songName = list(songName)
+        song = list(song)
+
+    return song, songName
+
+def export_song_collection(song, filename):
     songCollection = song[0]
 
     for i in range(1, len(song)):
         songCollection += song[i]
 
-    songCollection.export('./join.mp3', format='mp3')
+    songCollection.export(filename, format='mp3')
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--filename', default='join.mp3', help='output of filename')
+    parser.add_argument('--random', action='store_true', help='random shuffle order')
+    args = parser.parse_args()
+
     songUrl = read_song_url()
-    song = convert_to_song(songUrl)
-    export_song_collection(song)
+    song, songName = convert_to_song(songUrl, args.random)
+    export_song_collection(song, args.filename)
