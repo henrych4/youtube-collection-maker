@@ -14,8 +14,7 @@ Dependencies are `pydub`, `youtube-dl` and `ffmpeg`.
 
 ## ToDo
 
-* random shuffle order
-* customized output filename
-* option to keep downloaded video
-* generate a text showing the detail of collection
-* ...
+* [x] random shuffle order
+* [x] customized output filename
+option to keep downloaded video
+generate a text showing the detail of collection
